@@ -18,6 +18,14 @@ namespace Week7.Master.RepositoryMock
 
         public Docente Add(Docente item)
         {
+            if (Docenti.Count() == 0)
+            {
+                item.ID = 1;
+            }
+            else
+            {
+                item.ID = Docenti.Max(x => x.ID) + 1;
+            }
             Docenti.Add(item);
             return item;
         }
@@ -30,19 +38,19 @@ namespace Week7.Master.RepositoryMock
 
         public List<Docente> GetAll()
         {
-            return Docenti;
+            return Docenti.ToList();
         }
 
         public Docente GetById(int id)
         {
-            return Docenti.FirstOrDefault(d => d.ID == id);
+            return GetAll().FirstOrDefault(d => d.ID == id);
         }
 
         public Docente Update(Docente item)
         {
-            var oldDocente = GetById(item.ID);
-            oldDocente.Email = item.Email;
-            oldDocente.Telefono = item.Telefono;
+            var old = GetById(item.ID);            
+            old.Email = item.Email;
+            old.Telefono = item.Telefono;
             return item;
         }
     }
